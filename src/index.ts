@@ -9,6 +9,7 @@ import { handleSaveResponseTool } from './handlers/saveResponse.handler.js';
 import { handleReadRandomFromLast10Tool } from './handlers/readLastFile.handler.js';
 import { handleGrammarPracticeTool } from './handlers/grammarPractice.handler.js';
 import { handleRemoveFileTool } from './handlers/removeFile.handler.js';
+import { handleOpenFolderTool } from './handlers/openFolder.handler.js';
 
 // Server instance
 const server = new Server(
@@ -75,6 +76,14 @@ const tools: Tool[] = [
       required: ['filename'],
     },
   },
+  {
+    name: 'open_folder',
+    description: 'Open the data folder in Finder',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
 ];
 
 // List tools handler
@@ -101,6 +110,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     case 'remove_file':
       return handleRemoveFileTool(args);
+
+    case 'open_folder':
+      return handleOpenFolderTool();
 
     default:
       throw new Error(`Tool ${name} not found`);
