@@ -28,7 +28,7 @@ const server = new Server(
 const tools: Tool[] = [
   {
     name: 'save_response',
-    description: 'Save Claude response',
+    description: 'Save Claude response - only use when user explicitly asks to save',
     inputSchema: {
       type: 'object',
       properties: {
@@ -36,8 +36,12 @@ const tools: Tool[] = [
           type: 'string',
           description: 'Claude response to save',
         },
+        user_confirmed: {
+          type: 'boolean',
+          description: 'User has explicitly requested to save this response',
+        },
       },
-      required: ['claude_response'],
+      required: ['claude_response', 'user_confirmed'],
     },
   },
   {

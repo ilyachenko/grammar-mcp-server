@@ -15,6 +15,18 @@ export function handleSaveResponseTool(args: any) {
       };
     }
 
+    if (!args?.user_confirmed) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: 'Error: This tool should only be used when the user explicitly asks to save a response',
+          },
+        ],
+        isError: true,
+      };
+    }
+
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `${timestamp}.txt`;
     const dataDir = path.join(__dirname, '../../data');
