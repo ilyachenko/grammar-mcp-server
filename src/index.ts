@@ -6,7 +6,6 @@ import {
   Tool,
 } from '@modelcontextprotocol/sdk/types.js';
 import { handleSaveResponseTool } from './handlers/saveResponse.handler.js';
-import { handleReadRandomFromLast10Tool } from './handlers/readLastFile.handler.js';
 import { handleGrammarPracticeTool } from './handlers/grammarPractice.handler.js';
 import { handleRemoveFileTool } from './handlers/removeFile.handler.js';
 import { handleOpenFolderTool } from './handlers/openFolder.handler.js';
@@ -45,25 +44,11 @@ const tools: Tool[] = [
     },
   },
   {
-    name: 'read_random_from_last_10',
-    description: 'Read a random file from the last 10 saved files in data directory',
+    name: 'grammar_practice',
+    description: 'Generate practice questions from a random file in the last 10 saved files',
     inputSchema: {
       type: 'object',
       properties: {},
-    },
-  },
-  {
-    name: 'grammar_practice',
-    description: 'Generate practice questions based on file content',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        file_content: {
-          type: 'string',
-          description: 'Content of the file to generate questions from',
-        },
-      },
-      required: ['file_content'],
     },
   },
   {
@@ -106,11 +91,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     case 'save_response':
       return handleSaveResponseTool(args);
 
-    case 'read_random_from_last_10':
-      return handleReadRandomFromLast10Tool();
-
     case 'grammar_practice':
-      return handleGrammarPracticeTool(args);
+      return handleGrammarPracticeTool();
 
     case 'remove_file':
       return handleRemoveFileTool(args);
