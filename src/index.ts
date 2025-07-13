@@ -7,6 +7,7 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 import { handleSaveResponseTool } from './handlers/saveResponse.handler.js';
 import { handleGrammarPracticeTool } from './handlers/grammarPractice.handler.js';
+import { handleSummaryTool } from './handlers/summary.handler.js';
 import { handleRemoveFileTool } from './handlers/removeFile.handler.js';
 import { handleOpenFolderTool } from './handlers/openFolder.handler.js';
 
@@ -46,6 +47,14 @@ const tools: Tool[] = [
   {
     name: 'grammar_practice',
     description: 'Generate practice questions from a random file in the last 10 saved files',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'grammar_summary',
+    description: 'Analyze the last 10 saved files and prepare a summary report',
     inputSchema: {
       type: 'object',
       properties: {},
@@ -93,6 +102,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     case 'grammar_practice':
       return handleGrammarPracticeTool();
+
+    case 'grammar_summary':
+      return handleSummaryTool();
 
     case 'remove_file':
       return handleRemoveFileTool(args);
