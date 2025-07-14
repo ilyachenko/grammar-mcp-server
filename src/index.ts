@@ -6,6 +6,7 @@ import {
   Tool,
 } from '@modelcontextprotocol/sdk/types.js';
 import { handleSaveResponseTool } from './handlers/saveResponse.handler.js';
+import { handleSaveGrammarReportTool } from './handlers/saveGrammarReport.handler.js';
 import { handleGrammarPracticeTool } from './handlers/grammarPractice.handler.js';
 import { handleSummaryTool } from './handlers/summary.handler.js';
 import { handleRemoveFileTool } from './handlers/removeFile.handler.js';
@@ -42,6 +43,20 @@ const tools: Tool[] = [
         },
       },
       required: ['claude_response', 'user_confirmed'],
+    },
+  },
+  {
+    name: 'save_grammar_report',
+    description: 'Save grammar report from the same message where this command is used. Add new line after each block of text.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        message_content: {
+          type: 'string',
+          description: 'Content of the message containing the grammar report',
+        },
+      },
+      required: ['message_content'],
     },
   },
   {
@@ -99,6 +114,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   switch (name) {
     case 'save_response':
       return handleSaveResponseTool(args);
+
+    case 'save_grammar_report':
+      return handleSaveGrammarReportTool(args);
 
     case 'grammar_practice':
       return handleGrammarPracticeTool();
